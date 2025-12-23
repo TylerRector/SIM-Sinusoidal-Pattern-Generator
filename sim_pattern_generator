@@ -1,0 +1,61 @@
+import numpy as np
+from PIL import Image
+import os
+
+def generate_sim_patterns(
+    img_size=(512, 512),
+    pixel_size_um=0.1,        # sample plane pixel size (µm)
+    spatial_freq_um=3.5,      # pattern frequency (µm^-1)
+    angles_deg=(0, 60, 120),
+    phases_deg=(0, 120, 240),
+    modulation=0.3,           # 0–1 
+    mean_intensity=0.5,       # 0–1
+    bit_depth=16,
+    base_dir="",
+    out_name=""
+):
+    
+    # Generate sinusoidal SIM illumination patterns
+
+    # Absolute output directory
+    out_dir = os.path.join(base_dir, out_name)
+    out_dir = os.path.abspath(out_dir)
+    os.makedirs(out_dir, exist_ok=True)
+
+    print("Writing SIM patterns to:")
+    print(out_dir)
+
+    ny, nx = img_size
+    x = (np.arange(nx) - nx / 2) * pixel_size_um
+    y = (np.arange(ny) - ny / 2) * pixel_size_um
+    X, Y = np.meshgrid(x, y)
+
+    max_val = 2**bit_depth - 1
+
+    for a_idx, angle in enumerate(angles_deg):
+        theta = np.deg2rad(angle)
+        kx = spatial_freq_um * np.cos(theta)
+        ky = spatial_freq_um * np.sin(theta)
+
+        for p_idx, phase in enumerate(phases_deg):
+            phi = np.deg2rad(phase)
+
+            pattern = mean_intensity * (
+                1 + modulation * np.cos(2 * np.pi * (kx * X + ky * Y) + phi)
+            )
+
+            # Normalize to full bit depth
+            pattern -= pattern.min()
+            pattern /= pattern.max()
+            pattern = (pattern * max_val).astype(np.uint16)
+
+            fname = f"angle{a_idx}_phase{p_idx}.tif"
+            fpath = os.path.join(out_dir, fname)
+
+            Image.fromarray(pattern).save(fpath)
+
+    print(f"Generated {len(angles_deg) * len(phases_deg)} patterns.")
+    print("Done.")
+
+generate_sim_patterns()
+generate_sim_patterns()
