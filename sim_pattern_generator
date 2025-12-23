@@ -58,4 +58,3 @@ def generate_sim_patterns(
     print("Done.")
 
 generate_sim_patterns()
-generate_sim_patterns()
