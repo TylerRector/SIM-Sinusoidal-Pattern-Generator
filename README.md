@@ -1,4 +1,4 @@
-# SIM Pattern Tool
+# SIM Pattern Generator
 
 An [ImageJ](https://imagej.net/) plugin for generating and overlaying **Structured Illumination Microscopy (SIM)** interference patterns onto images. Useful for simulating SIM illumination conditions and testing reconstruction pipelines.
 
