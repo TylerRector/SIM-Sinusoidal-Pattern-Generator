@@ -42,7 +42,7 @@ Structured Illumination Microscopy works by projecting sinusoidal interference p
 
 1. Download `SIM_Pattern_Tool.java` (or compile it to `SIM_Pattern_Tool.class`).
 2. Place the `.java` file in your ImageJ `plugins/` directory.
-3. In ImageJ, go to **Plugins → Compile and Run** and select the file, **or** restart ImageJ/Fiji — the plugin will appear under the **Plugins** menu automatically.
+3. In ImageJ, go to **Plugins → Compile and Run** and select the file, **or** restart ImageJ/Fiji the plugin will appear under the **Plugins** menu automatically.
 
 > **Tip:** If you are using Fiji, dropping the file into `Fiji.app/plugins/` and restarting is all you need.
 
